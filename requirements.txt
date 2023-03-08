@@ -7,7 +7,6 @@ dj-database-url==1.0.0
 Django==3.2.15
 django-cloudinary-storage==0.3.0
 django-currentuser==0.5.3
-django-on-heroku==1.1.2
 gunicorn==20.1.0
 idna==3.3
 Pillow==9.2.0
