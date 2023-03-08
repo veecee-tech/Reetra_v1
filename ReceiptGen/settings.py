@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'white_noise.runserver_nostatic'
     'cloudinary_storage',
     'cloudinary',
     'django.contrib.humanize',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -129,18 +131,13 @@ USE_TZ = True
 # ROOT_PATH = os.path.dirname(__file__)
 
 STATIC_URL = '/static/'
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_DIRS = [os.path.join(ROOT_PATH, 'static')]
 # STATICFILES_DIRS =[os.path.join(BASE_DIR, "static"),]
 
-STATIC_URL = '/static/'
-
-STATIC_ROOT = '/ReceiptGen/staticfiles/'
-
-STATICFILES_DIRS = ['/ReceiptGen/static/']
-
 # CRISPY_TEMPLATE_PACK = 'bootstrap4' 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR /'media'
