@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'white_noise.runserver_nostatic'
+    'whitenoise.runserver_nostatic',
     'cloudinary_storage',
     'cloudinary',
     'django.contrib.humanize',
@@ -123,7 +123,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+WHITENOISE_USE_FINDERS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -132,10 +132,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATICFILES_DIRS = [os.path.join(ROOT_PATH, 'static')]
-# STATICFILES_DIRS =[os.path.join(BASE_DIR, "static"),]
-
-# CRISPY_TEMPLATE_PACK = 'bootstrap4' 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
