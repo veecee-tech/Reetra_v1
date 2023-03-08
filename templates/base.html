@@ -1,0 +1,21 @@
+
+{% load static %}
+
+
+{% include 'includes/header.html' %}
+
+<div class="container-scroller">
+
+    {% include 'includes/sidenav.html' %}
+
+    {% block content %}
+
+
+    {% endblock content %}
+
+</div>
+
+{% include 'includes/footer.html' %}
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js" defer></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js" defer></script>

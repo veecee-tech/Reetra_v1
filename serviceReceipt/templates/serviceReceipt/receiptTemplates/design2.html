@@ -1,0 +1,95 @@
+{% load static %}
+{% load humanize %}
+
+        <div class="panel panel-default plain" id="dash_0" style="background:white; padding:10px;">
+            <!-- Start .panel -->
+            <div class="panel-body p30">
+                <div class="row">
+                    <!-- Start .row -->
+                    <div class="col-lg-6">
+                        <!-- col-lg-6 start here -->
+                        <div class="invoice-logo"><img width="100" style="border-radius:50%;" src="{{user.userprofile.business_logo.url}}" alt="Invoice logo"></div>
+                    </div>
+                    <!-- col-lg-6 end here -->
+                    <div class="col-lg-6">
+                        <!-- col-lg-6 start here -->
+                        <div class="invoice-from">
+                            <ul class="list-unstyled text-right">
+                                <li>{{user.userprofile.business_name}}</li>
+                                <li>{{user.email}} <i class="fa fa-envelope"></i></li>
+                                <li>{{user.phone}} <i class="fa fa-phone"></i></li>
+                                <li><address>{{user.userprofile.business_address}}</address></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- col-lg-6 end here -->
+                    <div class="col-lg-12">
+                        <!-- col-lg-12 start here -->
+                        <div class="invoice-details mt25">
+                            <div class="well">
+                                <ul class="list-unstyled mb0">
+                                    <li><strong>Receipt</strong> {{single_invoice.receipt_no}}</li>
+                                    <li><strong>Issued Date:</strong> {{single_invoice.created_at}}</li>
+                                    <li><strong>Amount Paid:</strong> {{total}}</li>
+                                    <li><strong>Status:</strong> <span class="label label-danger">PAID</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="invoice-to mt25">
+                            <ul class="list-unstyled">
+                                <li><strong>Invoiced To</strong></li>
+                                <li>{{single_invoice.receive_from}}</li>
+                                <li><b>Mobile :</b> {{single_invoice.phone}}</li>
+                                <li><b>Address :</b>{{single_invoice.address}}</li>
+                                {% comment %} <li>USA</li> {% endcomment %}
+                            </ul>
+                        </div>
+                        <div class="invoice-items">
+                            <div class="table-responsive" style="outline: none;" tabindex="0">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="per70 text-center">Description</th>
+                                            <th class="per10 text-center">Price</th>
+                                            <th class="per15 text-center">Sub Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in items %}
+                                            <tr>
+                                                <td>{{ item.item_name}}
+                                                    <p class="m-0 text-muted">
+                                                        {{item.item_desc}}
+                                                    </p>
+                                                </td>
+                                                <td class="text-center">{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{item.item_price | intcomma}}</td>
+                                                <td class="text-center">{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{item.get_sub_total | intcomma}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="2" class="text-right">Total:</th>
+                                            <th class="text-center">{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{total | intcomma}}</th>
+                                        </tr>
+                                        
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- col-lg-12 end here -->
+                </div>
+                <!-- End .row -->
+            </div>
+        </div>
+        <!-- End .panel -->
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
+

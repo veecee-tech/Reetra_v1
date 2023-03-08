@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="a0">
+  <!-- Mirrored from startup-tailwind.preview.uideck.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Aug 2022 09:18:54 GMT -->
+  <!-- Added by HTTrack --><meta
+    http-equiv="content-type"
+    content="text/html;charset=utf-8"
+  /><!-- /Added by HTTrack -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReeTra</title>
+    <meta
+      name="title"
+      content="REETRA | Receipt Tracker"
+    />
+    <meta
+      name="description"
+      content="REETRA: Best tool to manage digital/physical receipts"   
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{% url 'home' %}" />
+    <meta
+      property="og:title"
+      content="REETRA | Receipt Tracker"
+    />
+    <meta
+      property="og:description"
+      content="REETRA: Best tool to manage digital/physical receipts"    />
+    <meta property="og:image" content="" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://saas-tailwind.preview.uideck.com/"
+    />
+    <meta
+      property="twitter:title"
+      content="REETRA | Receipt Tracker"
+    />
+    <meta
+      property="twitter:description"
+      content="REETRA: Best tool to manage digital/physical receipts" />
+    <meta property="twitter:image" content="" />
+    <link rel="shortcut icon" href="{% static 'images/logo2.png' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'homefiles/css/animate.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static 'homefiles/css/glightbox.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'homefiles/css/tailwind.css' %}" />
+    <script src="{% static 'homefiles/js/wow.min.js' %}"></script>
+    <script>
+      // ===== wow js
+      new WOW().init();
+    </script>
+  </head>
+  <body class="dark:a1">
+
+    {% include 'home/header.html' %}
+
+    {% block content %}
+    
+    {% endblock content %}
+
+    {% include 'home/footer.html' %}
+
+
+    <a
+    href="javascript:void(0)"
+    class="aj a9 a1x a1k aI a2c a2d a13 a2e a2f a2g a2h a1Y[999] hover:a1n hover:a2i a1p a1a a2j back-to-top a2k"
+  >
+    <span class="a28 a2l a2m a2n a2o aZ a11[6px]"></span>
+  </a>
+
+  <script src="{% static 'homefiles/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'homefiles/js/main.js' %}"></script>
+  <script>
+    // ==== pricing plan toggler
+    let togglePlan = document.querySelector("#togglePlan");
+
+    document.querySelector(".monthly").addEventListener("click", () => {
+      togglePlan.checked = false;
+    });
+    document.querySelector(".yearly").addEventListener("click", () => {
+      togglePlan.checked = true;
+    });
+
+    // ==== for menu scroll
+    const pageLink = document.querySelectorAll(".menu-scroll");
+
+    pageLink.forEach((elem) => {
+      elem.addEventListener("click", (e) => {
+        e.preventDefault();
+        document.querySelector(elem.getAttribute("href")).scrollIntoView({
+          behavior: "smooth",
+          offsetTop: 1 - 60,
+        });
+      });
+    });
+
+    // section menu active
+    function onScroll(event) {
+      const sections = document.querySelectorAll(".menu-scroll");
+      const scrollPos =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+
+      for (let i = 0; i < sections.length; i++) {
+        const currLink = sections[i];
+        const val = currLink.getAttribute("href");
+        const refElement = document.querySelector(val);
+        const scrollTopMinus = scrollPos + 73;
+        if (
+          refElement.offsetTop <= scrollTopMinus &&
+          refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+        ) {
+          document.querySelector(".menu-scroll").classList.remove("active");
+          currLink.classList.add("active");
+        } else {
+          currLink.classList.remove("active");
+        }
+      }
+    }
+
+    window.document.addEventListener("scroll", onScroll);
+
+    //========= glightbox
+    GLightbox({
+      href: "https://www.youtube.com/watch?v=r44RKWyfcFw&fbclid=IwAR21beSJORalzmzokxDRcGfkZA1AtRTE__l5N4r09HcGS5Y6vOluyouM9EM",
+      type: "video",
+      source: "youtube", //vimeo, youtube or local
+      width: 900,
+      autoplayVideos: true,
+    });
+  </script>
+</body>
+
+<!-- Mirrored from startup-tailwind.preview.uideck.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Aug 2022 09:19:12 GMT -->
+</html>

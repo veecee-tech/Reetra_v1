@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+
+<script>
+  printDivCSS = new String (' <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">      ')
+  
+  function printDiv(divId) {
+      window.frames["print_frame"].document.body.innerHTML=printDivCSS  + document.querySelector('.panelprint').innerHTML;
+      window.frames["print_frame"].window.focus();
+      window.frames["print_frame"].window.print();
+  }
+</script>
+
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row" style="margin-bottom: 10px !important;">
+          <div class="col-md-12">
+            <button class="btn btn-success mr-3" type="button" id="temp1">Design 1</button>
+            <button class="btn btn-success mr-3" type="button" id="temp2">Design 2</button>
+            <button class="btn btn-success mr-3" type="button" id="temp3">Design 3</button>
+            <button class="btn btn-success mr-3" type="button" id="temp4">Design 4</button>
+          </div>
+          
+        <div class="col-md-12">
+            &nbsp;
+        </div>
+          <div id='template' class="col-md-12">
+            <div id="design1" class="panelprint">
+              {% include 'serviceReceipt/receiptTemplates/design1.html' %}
+            </div>
+            <div id="design2" style="display:none;">
+              {% include 'serviceReceipt/receiptTemplates/design2.html' %}
+            </div>
+            <div id="design3" style="display:none;">
+              {% include 'serviceReceipt/receiptTemplates/design3.html' %}
+            </div>
+            <div id="design4" style="display:none;">
+              {% include 'serviceReceipt/receiptTemplates/design4.html' %}
+            </div>
+          </div>
+        </div>
+        <div class="buttons">
+
+          {% if not single_invoice.is_submitted %}
+            {% comment %} <button type="button">Edit Items</button> {% endcomment %}
+            {% if item_count > 0 %}
+              <a href="{% url 'serviceReceipt:all_items' single_invoice.receipt_no %}" class="btn">Edit Items </a>
+              <a class="btn"
+              href="{% url 'serviceReceipt:approve' single_invoice.id%}" onclick="return confirm('Are you sure you want to approve this receipt, Please note, you wont be able to edit or delete any item on the receipt after the approval')">Approve</a>
+            {% else %}
+              <a class="btn btn-warning" href="{% url 'serviceReceipt:add_item' single_invoice.receipt_no %}" class="addItem">Add Item</a>
+
+            {% endif %}
+          {% endif %}
+          
+          {% if single_invoice.is_submitted %}
+            <a class="btn" href="javascript:printDiv('div1')">Print</a> &nbsp;
+            {% comment %} <a class="btn1" href="javascript:CreatePDFfromHTML('div1')">download</a> &nbsp; {% endcomment %}
+            <button class="btn" style="outline:none; cursor: pointer; border:1px solid #8500a5; color: #8500a5; background:white" onclick="print()">download</button>
+          {% endif %}
+          
+          
+            
+          
+        </div>
+        <iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank"></iframe>
+    </div>
+</div>
+
+<script>
+    setTimeout(function(){
+        $('.errorbar').fadeOut('slow')
+    }, 2000)
+
+
+      //design 2
+      document.getElementById('temp2').addEventListener("click", () => {
+
+        document.getElementById("design1").style.display = 'none'
+        document.getElementById("design2").style.display = 'block'
+        document.getElementById("design3").style.display = 'none'
+        document.getElementById("design4").style.display = 'none'
+
+        document.getElementById("design1").classList.remove("panelprint");
+        document.getElementById("design2").className += 'panelprint';
+        document.getElementById("design3").classList.remove("panelprint");
+        document.getElementById("design4").classList.remove("panelprint");
+      });
+
+      //design 1
+      document.getElementById('temp1').addEventListener("click", () => {
+
+        document.getElementById("design2").style.display = 'none'
+        document.getElementById("design1").style.display = 'block'
+        document.getElementById("design3").style.display = 'none'
+        document.getElementById("design4").style.display = 'none'
+        
+
+
+        document.getElementById("design2").classList.remove("panelprint");
+        document.getElementById("design1").className +='panelprint';
+        document.getElementById("design3").classList.remove("panelprint");
+        document.getElementById("design4").classList.remove("panelprint");
+
+
+      });
+
+      //design 3
+      document.getElementById('temp3').addEventListener("click", () => {
+        document.getElementById("design2").style.display = 'none'
+        document.getElementById("design3").style.display = 'block'
+        document.getElementById("design1").style.display = 'none'
+        document.getElementById("design4").style.display = 'none'
+
+
+        document.getElementById("design3").className +='panelprint';
+        document.getElementById("design2").classList.remove("panelprint");
+        document.getElementById("design1").classList.remove("panelprint");
+        document.getElementById("design4").classList.remove("panelprint");
+
+
+      });
+
+      //design 4
+      document.getElementById('temp4').addEventListener("click", () => {
+        document.getElementById("design2").style.display = 'none'
+        document.getElementById("design4").style.display = 'block'
+        document.getElementById("design1").style.display = 'none'
+        document.getElementById("design3").style.display = 'none'
+
+
+        document.getElementById("design4").className += " " + 'panelprint';
+        document.getElementById("design2").classList.remove("panelprint");
+        document.getElementById("design1").classList.remove("panelprint");
+        document.getElementById("design3").classList.remove("panelprint");
+
+
+      });
+
+      function generatePDF() {
+        const doc = new jsPDF({ unit: 'px' }) // create jsPDF object
+        const pdfElement = document.getElementById('preivew-reciept') // HTML element to be converted to PDF
+      
+        doc.html(pdfElement, {
+          callback: (pdf) => {
+            pdf.save('MyPdfFile.pdf')
+          },
+          margin: 32, // optional: page margin
+          // optional: other HTMLOptions
+        })
+      }
+
+
+    
+  function print(quality = 3) {
+		const filename  = 'ThisIsYourPDFFilename.pdf';
+
+    var divHeight = $('.panelprint').height();
+    var divWidth = $('.panelprint').width();
+    var ratio = divHeight / divWidth;
+		html2canvas(document.querySelector('.panelprint'), 
+								{
+                  scale: quality,
+                  height: divHeight,
+                  width: divWidth,
+              
+                }
+						 ).then(canvas => {
+			let pdf = new jsPDF({unit: 'pt'});
+
+      var width = pdf.internal.pageSize.getWidth();    
+      var height = pdf.internal.pageSize.getHeight();
+      height = ratio * width;
+			pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, width-10, height-10);
+			pdf.save(filename);
+		});
+	}
+</script>
+{% endblock %}

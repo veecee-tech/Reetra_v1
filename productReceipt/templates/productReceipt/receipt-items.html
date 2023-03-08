@@ -1,0 +1,62 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load humanize %} 
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Receipt Items</h4>
+                    <p class="card-description">
+                      List of all receipt items
+                    </p>
+                    <div class="table-responsive">
+                      {% if all_items %}
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                          </tr>
+                   
+                    
+                      {% for item in all_items %}
+                        <tr>
+                          <td>{{item.item_name}}</td>
+                          <td>{{item.item_price}}</td>
+                          <td>{{item.item_qty}}</td>
+                          <td>
+                            
+                            <a href="{% url 'productReceipt:update_item' item.id %}" class="btn btn-primary">Update</a>
+                            <a href="{% url 'productReceipt:delete_item' item.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{item.item_name}} from the list?')">Delete</a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                      {% else %}
+                      <h1>No item added yet</h2>
+                    {% endif %}
+                    
+                    
+                  
+              
+              </tbody>
+            </table>
+            <a href="{% url 'productReceipt:single_invoice' receipt_no.id receipt_no.receipt_no %}" class="btn btn-primary mt-5">Proceed</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}

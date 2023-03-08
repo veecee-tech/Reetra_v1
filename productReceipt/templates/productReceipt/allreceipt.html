@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <a href="{% url 'serviceReceipt:today' %}" class="btn btn-success mb-2">Go to Service Based Receipt</a>
+      
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Product Based Receipt</h4>
+            {% comment %} <p class="card-description">
+              
+            </p> {% endcomment %}
+            <div class="row">
+              <div class="col-md-6">
+                  <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link {% if 'today' in request.path %}active{% endif %}" aria-current="page" href="{% url 'productReceipt:today' %}">Today</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if 'week' in request.path %}active{% endif %}" href="{% url 'productReceipt:this_week' %}">This Week</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if 'month' in request.path %}active{% endif %}" href="{% url 'productReceipt:this_month' %}">This Month</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if 'all' in request.path %}active{% endif %}" href="{% url 'productReceipt:all_invoice' %}">All Invoice</a>
+                    </li>
+                    
+                  
+                  </ul>
+                </div>
+
+                <div class="col-md-6">
+                  <form action="{% url 'productReceipt:search' %}" method="GET" class="search">
+                    <div class="input-group w-100">
+                        <input type="text" class="form-control" name="keyword" placeholder="Search">
+                        
+                        <div class="input-group-append">
+                          <button class="btn btn-sm btn-success" type="submit">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </div>
+                      </div>
+                  </form>
+                </div>
+                <div class="table-responsive">
+      
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>
+                        Receipt Number
+                      </th>
+                      <th>
+                        Issued To
+                      </th>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Action
+                      </th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {% for invoice in all_invoice %}
+            <tr>
+              <td>{{invoice.receipt_no}}</td>
+              <td>{{invoice.receive_from}}</td>
+              <td>{{invoice.created_at}}</td>
+              <td>
+                {% comment %} <button class="print">Print</button> {% endcomment %}
+                {% if not invoice.is_submitted %}
+                  <a class="btn btn-warning" href="{% url 'productReceipt:add_item' invoice.receipt_no %}" class="addItem">Add Item</a>
+                {% endif %}
+                <a class="btn btn-secondary" href="{% url 'productReceipt:single_invoice' invoice.id invoice.receipt_no %}" class="view">View</a>
+              </td>
+            </tr>
+          {% endfor %}
+                   
+                      
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

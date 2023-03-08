@@ -1,0 +1,251 @@
+{% load static %}
+{% load humanize %}
+<div class="container">
+    <div class="row gutters">
+    	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    		<div class="card">
+    			<div class="card-body p-0">
+    				<div class="invoice-container">
+    					<div class="invoice-header">
+    
+    						
+    
+    						<!-- Row start -->
+    						<div class="row gutters">
+    							<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+    								<a class="invoice-logo">
+										<img class="img-responsive" alt="iamgurdeeposahan" src="{{user.userprofile.business_logo.url}}" style="width: 100; border-radius: 50%;">
+    								</a>
+    							</div>
+    							<div class="col-lg-6 col-md-6 col-sm-6">
+    								<address class="text-right">
+    									{{ user.userprofile.business_name }}.<br>
+    									{{user.phone}} <i class="fa fa-phone"></i>.<br>
+    									{{user.email}} <i class="fa fa-envelope"> </i>
+    								</address>
+    							</div>
+    						</div>
+    						<!-- Row end -->
+    
+    						<!-- Row start -->
+    						<div class="row gutters">
+    							<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    								<div class="invoice-details">
+    									<address>
+    										{{single_invoice.receive_from}}<br>
+    										{{single_invoice.phone}} <br>
+											{{single_invoice.address}}
+    									</address>
+    								</div>
+    							</div>
+    							<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+    								<div class="invoice-details">
+    									<div class="invoice-num" style="color:#bcd0f7;">
+    										<div>Invoice - #{{single_invoice.receipt_no}}</div>
+    										<div>{{single_invoice.created_at}}</div>
+    									</div>
+    								</div>													
+    							</div>
+    						</div>
+    						<!-- Row end -->
+    
+    					</div>
+    
+    					<div class="invoice-body">
+    
+    						<!-- Row start -->
+    						<div class="row gutters">
+    							<div class="col-lg-12 col-md-12 col-sm-12">
+    								<div class="table-responsive">
+    									<table class="table custom-table m-0" style="color:#bcd0f7;">
+    										<thead>
+    											<tr style="background: #2f71c1 !important;">
+    												<th>Service Offered</th>
+    												<th>Price</th>
+    												<th>Quantity</th>
+    												<th>Sub Total</th>
+    											</tr>
+    										</thead>
+    										<tbody>
+												{% for item in items  %}
+													<tr>
+														<td>
+															{{ item.item_name}}
+															<p class="m-0 text-muted">
+																{{item.item_desc}}
+															</p>
+														</td>
+														<td>{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{item.item_price | intcomma}}</td>
+														<td>{{item.item_qty}}</td>
+			
+														<td>{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{ item.get_sub_total | intcomma}}</td>
+													</tr>
+												{% endfor %}
+    											<tr>
+    												<td>&nbsp;</td>
+    												<td colspan="2">
+    													<p>
+    														Subtotal<br>
+    														<br>
+    													</p>
+    													<h5 class="text-success"><strong>Grand Total</strong></h5>
+    												</td>			
+    												<td>
+    													<p>
+    														{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{total | intcomma}}<br>
+    														<br>
+    													</p>
+    													<h5 class="text-success"><strong>{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{total | intcomma}}</strong></h5>
+    												</td>
+    											</tr>
+    										</tbody>
+    									</table>
+    								</div>
+    							</div>
+    						</div>
+    						<!-- Row end -->
+    
+    					</div>
+    
+    					<div class="invoice-footer">
+    						Thank you for your Patronage
+    					</div>
+    
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div>
+
+<style type="text/css">
+
+.invoice-container {
+    padding: 1rem;
+}
+.invoice-container .invoice-header .invoice-logo {
+    margin: 0.8rem 0 0 0;
+    display: inline-block;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #bcd0f7;
+}
+.invoice-container .invoice-header .invoice-logo img {
+    max-width: 130px;
+}
+.invoice-container .invoice-header address {
+    font-size: 0.8rem;
+    color: #8a99b5;
+    margin: 0;
+}
+.invoice-container .invoice-details {
+    margin: 1rem 0 0 0;
+    padding: 1rem;
+    line-height: 180%;
+    background: #1a233a;
+}
+.invoice-container .invoice-details .invoice-num {
+    text-align: right;
+    font-size: 0.8rem;
+}
+.invoice-container .invoice-body {
+    padding: 1rem 0 0 0;
+}
+.invoice-container .invoice-footer {
+    text-align: center;
+    font-size: 0.7rem;
+    margin: 5px 0 0 0;
+	color: #fff;
+}
+
+.invoice-status {
+    text-align: center;
+    padding: 1rem;
+    background: #272e48;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.invoice-status h2.status {
+    margin: 0 0 0.8rem 0;
+}
+.invoice-status h5.status-title {
+    margin: 0 0 0.8rem 0;
+    color: #8a99b5;
+}
+.invoice-status p.status-type {
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    line-height: 150%;
+}
+.invoice-status i {
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    display: inline-block;
+    padding: 1rem;
+    background: #1a233a;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+}
+.invoice-status .badge {
+    text-transform: uppercase;
+}
+h5.text-success{
+	color: #c0d64a !important;
+}
+@media (max-width: 767px) {
+    .invoice-container {
+        padding: 1rem;
+    }
+}
+
+.card {
+    background: #272E48 !important;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+}
+
+.custom-table {
+    border: 1px solid #2b3958;
+}
+.custom-table thead {
+    background: #2f71c1;
+}
+.custom-table thead th {
+    border: 0;
+    color: #ffffff;
+}
+.custom-table > tbody tr:hover {
+    background: #172033;
+}
+.custom-table > tbody tr:nth-of-type(even) {
+    background-color: #1a243a;
+}
+.custom-table > tbody td {
+    border: 1px solid #2e3d5f;
+}
+
+.custom-table {
+    background: #1a243a;
+    color: #bcd0f7;
+    font-size: .75rem;
+}
+.text-success {
+    color: #c0d64a !important;
+}
+.custom-actions-btns {
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.custom-actions-btns .btn {
+    margin: .3rem 0 .3rem .3rem;
+}
+
+
+</style>

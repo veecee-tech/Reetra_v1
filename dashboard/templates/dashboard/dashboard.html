@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" defer></script>
+
+  <!-- partial -->
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-md-12 grid-margin">
+          <div class="row">
+            <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+              <h3 class="font-weight-bold">Welcome {{ user.email }}</h3>
+              <h6 class="font-weight-normal mb-0">Welcome To REETRA! <span class="text-primary">The best online receipt generator!</span></h6>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+          <div class="card tale-bg">
+            <div class="card-people mt-auto">
+              <img src="{% static 'images/dashboard/people.svg' %}" alt="people">
+              <div class="weather-info">
+                <div class="d-flex">
+                  <div class="text show_date" style="font-weight:bolder; font-size: 34px; opacity: 0.7;">
+                    {% comment %} <h2 class="mb-0 font-weight-normal">{{temperature}}<sup>C</sup></h2> {% endcomment %}
+                      
+                  </div>
+                  <div>
+                    
+                    {% comment %} <img src="{{weather_description}}" width="100" alt=""> {% endcomment %}
+                  </div>
+                  <div class="ml-2">
+                    {% comment %} <h4 class="location font-weight-normal">Bangalore</h4>
+                    <h6 class="font-weight-normal">India</h6> {% endcomment %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 grid-margin transparent">
+          <div class="row">
+            <div class="col-md-6 mb-4 stretch-card transparent">
+              <div class="card card-tale">
+                <div class="card-body">
+                  <p class="mb-4">Generated Today</p>
+                  <p class="fs-30 mb-2">{{today_receipt}}</p>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4 stretch-card transparent">
+              <div class="card card-dark-blue">
+                <div class="card-body">
+                  <p class="mb-4">This Week</p>
+                  <p class="fs-30 mb-2">{{this_week}}</p>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
+              <div class="card card-light-blue">
+                <div class="card-body">
+                  <p class="mb-4">This Month</p>
+                  <p class="fs-30 mb-2">{{this_month}}</p>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 stretch-card transparent">
+              <div class="card card-light-danger">
+                <div class="card-body">
+                  <p class="mb-4">Total</p>
+                  <p class="fs-30 mb-2">{{total}}</p>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Today Receipts</h4>
+            <p class="card-description">
+              <div class="col-md-6">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <button class="nav-link btn_product active">Product based</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link btn_service">Service based</button>
+                  </li>                
+                </ul>
+              </div>
+            </p>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>
+                      S/N
+                    </th>
+                    <th>
+                      Receipt Number
+                    </th>
+                    <th>
+                      Issued To
+                    </th>
+                    <th>
+                      Date
+                    </th>
+                    <th>
+                      Type
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="product">
+                  
+                  {% for invoice in product_today_receipt %}
+                  <tr>
+                    <td>
+                      {{forloop.counter }}
+                    </td>
+                    <td>
+                      {{invoice.receipt_no}}
+                    </td>
+                    <td>
+                      {{invoice.receive_from}}
+                    </td>
+                    <td>
+                      {{invoice.created_at}}
+                    </td>
+                    <td>
+                      Product Based
+                    </td>
+                    <td>
+                      {% if not invoice.is_submitted %}
+                      <a class="btn btn-warning" href="{% url 'productReceipt:add_item' invoice.receipt_no %}" class="addItem">Add Item</a>
+                    {% endif %}
+                    <a class="btn btn-secondary" href="{% url 'productReceipt:single_invoice' invoice.id invoice.receipt_no %}" class="view">View</a>
+                  
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+
+                <tbody class="service" style="display:none;">
+                  
+                  {% for invoice in service_today_receipt %}
+                  <tr>
+                    <td>
+                      {{forloop.counter }}
+                    </td>
+                    <td>
+                      {{invoice.receipt_no}}
+                    </td>
+                    <td>
+                      {{invoice.receive_from}}
+                    </td>
+                    <td>
+                      {{invoice.created_at}}
+                    </td>
+                    <td>
+                      Service Based
+                    </td>
+                    <td>
+                      {% if not invoice.is_submitted %}
+                      <a class="btn btn-warning" href="{% url 'serviceReceipt:add_item' invoice.receipt_no %}" class="addItem">Add Item</a>
+                    {% endif %}
+                    <a class="btn btn-secondary" href="{% url 'serviceReceipt:single_invoice' invoice.id invoice.receipt_no %}" class="view">View</a>
+                  
+                    </td>
+                  </tr>
+                  {% endfor %}
+            
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- content-wrapper ends -->
+  </div>
+
+  
+
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=> {
+
+        btn_product = document.querySelector('.btn_product')
+        btn_service = document.querySelector('.btn_service')
+        product = document.querySelector('.product')
+        service = document.querySelector('.service')
+        var show_date = document.querySelector('.show_date')
+
+
+        btn_product.addEventListener('click', function(){
+          service.style.display = "none";
+          product.style.display = "contents"
+          btn_service.classList.remove('active')
+          btn_product.classList.add('active')
+        });
+
+        btn_service.addEventListener('click', function(){
+          product.style.display = "none";
+          service.style.display = "contents"
+          btn_service.classList.add('active')
+          btn_product.classList.remove('active')
+        });
+        
+
+        function showTime(){
+          var date = new Date();
+        var hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+        var am_pm = date.getHours() >= 12 ? "PM" : "AM";
+        hours = hours < 10 ? "0" + hours : hours;
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        time = hours + ":" + minutes + ":" + seconds + " " + am_pm;
+
+          show_date.innerHTML =time
+      
+        }
+
+        setInterval(showTime, 1000);
+      });
+        
+  </script>
+{% endblock %}

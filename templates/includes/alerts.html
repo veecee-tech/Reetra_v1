@@ -1,0 +1,40 @@
+
+<style>
+    .dark{
+        background: #FF7276;
+        padding: 16px;
+    }
+    .green{
+        background: #08FF08;
+        padding: 16px;
+    }
+</style>
+{% if messages %}
+
+    {% for message in messages %}
+    {% if message.tags == "danger" %}
+        <div id="message" class="dark">
+            <div style="color:white;" role="alert">
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}{% endif %}
+                {{message}}
+                
+        </div>
+        </div>
+    {% else %}
+    <div id="message" class="green">
+        <div style="color:white;" role="alert">
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}{% endif %}
+            {{message}}
+            
+    </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+{% endif %}
+
+<script>
+    setTimeout(function(){
+        document.getElementById('message').style.display = "none"
+    }, 3000)
+</script>

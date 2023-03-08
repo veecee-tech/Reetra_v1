@@ -1,0 +1,1 @@
+web: gunicorn ReceiptGen.wsgi --log-file -

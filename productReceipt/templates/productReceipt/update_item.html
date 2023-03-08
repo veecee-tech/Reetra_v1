@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+      <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Manage Receipt</h4>
+              <p class="card-description">
+                Update Receipt Item
+              </p>
+                    
+                    <form class="forms-sample" action="{% url 'productReceipt:update_item' item.id %}" method="post">
+                      {% csrf_token %}
+                      {% include 'includes/alerts.html' %}
+                      <div class="form-group">
+                        <label for="item_name">Product Name</label>
+                        {{forms.item_name}}
+                      </div>
+                      <div class="form-group">
+                        <label for="item_qty">Product Quantity</label>
+                        {{forms.item_qty}}
+                      </div>
+                      <div class="form-group">
+                        <label for="item_price">Product Price</label>
+                          {{forms.item_price}}
+                      </div>
+                      <div class="form-group">
+                        <label for="item_desc">Description</label>
+                          {{forms.item_desc}}
+                      </div>
+                      
+                      <div class="form-group">
+                      <button type="submit" class="btn btn-primary mr-2">Update Item</button>
+                      <button type="reset" class="btn btn-light">Cancel</button>
+                    </div>
+                            
+                    </form>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}

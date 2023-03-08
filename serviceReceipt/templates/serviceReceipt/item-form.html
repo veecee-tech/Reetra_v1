@@ -1,0 +1,53 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load humanize %} 
+
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Generate Receipt</h4>
+            <p class="card-description">Generate Service Based Receipt</p>
+
+            <form
+              action="{% url 'serviceReceipt:add_item' receipt_no %}"
+              method="post"
+            >
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="item_name">Service Offered</label>
+                {{form.item_name}}
+              </div>
+              <div class="form-group">
+                <label for="item_price">Service Fee</label>
+                {{form.item_price}}
+              </div>
+              <div class="form-group">
+                <label for="item_desc">Description</label>
+                {{form.item_desc}}
+              </div>
+
+              <button type="submit" class="btn btn-primary mr-2">Submit</button>
+              <button type="reset" class="btn btn-light">Cancel</button>
+              <a class="btn btn-secondary" href="{% url 'serviceReceipt:single_invoice' receipt_no_id receipt_no %}" onclick="return confirm('Are You Sure you\'ve clicked on the submit button to update the receipt? if yes, press ok. if no, kindly click on cancel and submit the form')"
+                  >PreView</a
+                >
+              
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  setTimeout(function () {
+    $(".errorbar").fadeOut("slow");
+  }, 2000);
+</script>
+{% endblock %}

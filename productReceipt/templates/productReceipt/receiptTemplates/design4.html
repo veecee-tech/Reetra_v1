@@ -1,0 +1,304 @@
+{% load static %}
+{% load humanize %}
+
+<div class="container">
+    <div class="card" style="background-color:white !important;">
+        <div class="card-body">
+            <div id="invoicer">
+                
+                <div class="invoicer overflow-auto">
+                    <div style="min-width: 600px">
+                        <header>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="javascript:;">
+    												<img src="{{user.userprofile.business_logo.url}}" width="80" alt="">
+												</a>
+                                </div>
+                                <div class="col company-details">
+                                    <h2 class="name">
+                                        <a target="_blank" href="javascript:;">
+									{{user.userprofile.business_name}}
+									</a>
+                                    </h2>
+                                    <div>{{user.userprofile.business_address}}</div>
+                                    <div>{{user.phone}} <i class="fa fa-phone"></i></div>
+                                    <div class="email"><a href="mailto:{{user.email}}">{{user.email}}<i class="fa fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </header>
+                        <main>
+                            <div class="row contacts">
+                                <div class="col invoicer-to">
+                                    <div class="text-gray-light">Issued TO:</div>
+                                    <h5 class="to">{{single_invoice.receive_from}}</h5>
+                                    <div class="address">{{single_invoice.address}}</div>
+                                    <div class="email"><a href="mailto:{{single_invoice.receive_from}}">{{single_invoice.receive_from}}</a>
+                                    </div>
+                                </div>
+                                <div class="col invoicer-details">
+                                    <h6 class="invoicer-id">Receipt #{{single_invoice.receipt_no}}</h6>
+                                    <div class="date">Date Issued: {{single_invoice.created_at}}</div>
+                                    
+                                </div>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="text-left">DESCRIPTION</th>
+                                        <th class="text-right">PRICE</th>
+                                        <th class="text-right">Quantity</th>
+                                        <th class="text-right">TOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                        <tr>
+                                            <td class="no">{{forloop.counter }}</td>
+                                            <td class="text-left">
+                                                <h3>
+                                                    <a target="_blank" href="javascript:;">
+                                            {{item.item_name}}
+                                            </a>
+                                                </h3>
+                                                <a target="_blank" href="javascript:;">
+                                            Description:
+                                        </a> {{item.item_desc}}</td>
+                                            <td class="unit">{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{item.item_price | intcomma}}</td>
+
+                                            <td>{{item.item_qty}}</td>
+                                            
+                                            <td class="total">{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{item.get_sub_total | intcomma}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    
+                                    
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <td colspan="3">SUBTOTAL</td>
+                                        <td>{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <td colspan="3">GRAND TOTAL</td>
+                                        <td>{% if single_invoice.currency_format == 'N' %}<i class="fa fa-naira-sign"></i>{% else %}{{single_invoice.currency_format}} {% endif %}{{total | intcomma}}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div class="thanks">Thank you!</div>
+                            {% comment %} <div class="notices">
+                                <div>NOTICE:</div>
+                                <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                            </div> {% endcomment %}
+                        </main>
+                        <footer>Receipt was created on a computer and is valid without the signature and seal.</footer>
+                    </div>
+                    <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+
+#invoicer {
+    padding: 0px;
+}
+
+.invoicer {
+    position: relative;
+    background-color: #FFF;
+    min-height: 680px;
+    padding: 15px
+}
+
+.invoicer header {
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #0d6efd
+}
+
+.invoicer .company-details {
+    text-align: right
+}
+
+.invoicer .company-details .name {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.invoicer .contacts {
+    margin-bottom: 20px
+}
+
+.invoicer .invoicer-to {
+    text-align: left
+}
+
+.invoicer .invoicer-to .to {
+    margin-top: 0;
+    margin-bottom: 0
+}
+
+.invoicer .invoicer-details {
+    text-align: right
+}
+
+.invoicer .invoicer-details .invoicer-id {
+    margin-top: 0;
+    color: #0d6efd
+}
+
+.invoicer main {
+    padding-bottom: 50px
+}
+
+.invoicer main .thanks {
+    margin-top: -50px;
+    font-size: 2em;
+    margin-bottom: 50px
+}
+
+.invoicer main .notices {
+    padding-left: 6px;
+    border-left: 6px solid #0d6efd;
+    background: #e7f2ff;
+    padding: 10px;
+}
+
+.invoicer main .notices .notice {
+    font-size: 1.2em
+}
+
+.invoicer table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px
+}
+
+.invoicer table td,
+.invoicer table th {
+    padding: 15px;
+    background: #eee;
+    border-bottom: 1px solid #fff
+}
+
+.invoicer table th {
+    white-space: nowrap;
+    font-weight: 400;
+    font-size: 16px
+}
+
+.invoicer table td h3 {
+    margin: 0;
+    font-weight: 400;
+    color: #0d6efd;
+    font-size: 1.2em
+}
+
+.invoicer table .qty,
+.invoicer table .total,
+.invoicer table .unit {
+    text-align: right;
+    font-size: 1.2em
+}
+
+.invoicer table .no {
+    color: #fff;
+    font-size: 1.6em;
+    background: #0d6efd
+}
+
+.invoicer table .unit {
+    background: #ddd
+}
+
+.invoicer table .total {
+    background: #0d6efd;
+    color: #fff
+}
+
+.invoicer table tbody tr:last-child td {
+    border: none
+}
+
+.invoicer table tfoot td {
+    background: 0 0;
+    border-bottom: none;
+    white-space: nowrap;
+    text-align: right;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-top: 1px solid #aaa
+}
+
+.invoicer table tfoot tr:first-child td {
+    border-top: none
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px solid rgba(0, 0, 0, 0);
+    border-radius: .25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+}
+
+.invoicer table tfoot tr:last-child td {
+    color: #0d6efd;
+    font-size: 1.4em;
+    border-top: 1px solid #0d6efd
+}
+
+.invoicer table tfoot tr td:first-child {
+    border: none
+}
+
+.invoicer footer {
+    width: 100%;
+    text-align: center;
+    color: #777;
+    border-top: 1px solid #aaa;
+    padding: 8px 0
+}
+
+@media print {
+    .invoicer {
+        font-size: 11px !important;
+        overflow: hidden !important
+    }
+    .invoicer footer {
+        position: absolute;
+        bottom: 10px;
+        page-break-after: always
+    }
+    .invoicer>div:last-child {
+        page-break-before: always
+    }
+}
+
+.invoicer main .notices {
+    padding-left: 6px;
+    border-left: 6px solid #0d6efd;
+    background: #e7f2ff;
+    padding: 10px;
+}
+</style>
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Generate Receipt</h4>
+                    <p class="card-description">
+                      Generate Product Based Receipt
+                    </p>
+      <form class="forms-sample" action="{% url 'productReceipt:gen_receipt' %}" method="post">
+        {% csrf_token %}
+        <p>Add a new receipt</p>
+      
+        <div class="form-group">
+          <label for="receive_from">Receive From</label>
+          {{form.receive_from}}
+      </div>
+      <div class="form-group">
+          <label for="address">Customer Address</label>
+          {{form.address}}
+      </div>
+      <div class="form-group">
+          <label for="phone">Phone Number</label>
+          {{form.phone}}
+          <span class="text text-danger errorbar">{{ form.phone.errors }}</span>
+
+      </div>
+      <div class="form-group">
+        <label for="currency_format">Currency</label>
+        {{form.currency_format}}
+       
+    </div>
+
+    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+    <button type="reset" class="btn btn-light">Cancel</button>
+      </form>
+    </div>
+    <script>
+      setTimeout(function(){
+          $('.errorbar').fadeOut('slow')
+      }, 2000)
+  </script>
+    
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% load humanize %} 
+
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Generate Receipt</h4>
+            <p class="card-description">Generate Service Based Receipt</p>
+
+      <form action="{% url 'productReceipt:add_item' receipt_no %}" method="post">
+        {% csrf_token %}
+        <p>Add Item To Receipt </p>
+      
+        <div class="form-group">
+                <label for="item_name">Product Name</label>
+          {{form.item_name}}
+        </div>
+        <div class="form-group">
+          <label for="item_price">Product Price</label>
+          {{form.item_price}}
+        </div>
+        <div class="form-group">
+          <label for="item_qty">Product Quantity</label>
+          {{form.item_qty}}
+        </div>
+        <div<div class="form-group">
+          <label for="item_desc">Description</label>>
+          {{form.item_desc}}
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+              <button type="reset" class="btn btn-light">Cancel</button>
+                <a onclick="return confirm('Are You Sure you\'ve clicked on the submit button to update the receipt? if yes, press ok. if no, kindly click on cancel and submit the form')" class="btn btn-secondary"
+                  href="{% url 'productReceipt:single_invoice' receipt_no_id receipt_no %}"
+                  >Preview</a
+                >
+      </form>
+      
+    </div>
+{% endblock %}
