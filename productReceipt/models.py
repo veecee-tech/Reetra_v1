@@ -11,11 +11,17 @@ from django_currentuser.middleware import (
 class Receipt_No(models.Model):
 
     CURRENCY_CHOICES = (
-            ('N', 'N'),
+            ('₦', '₦'),
             ('$', '$'),
-            ('EURO', 'EURO'),
+            ('£', '£'),
+            ('€', '€'),
+            ('¥', '¥'),
+            ('₱', '₱'),
+            ('₹', '₹'),
+            ('R', 'R'),
+            ('₽', '₽'),
+    )
 
-        )
     user = models.ForeignKey(UserAccount, related_name="productuser", default=UserAccount, on_delete=models.CASCADE, null=True)
     receipt_no = models.CharField(max_length=500, unique=True, null=True, blank=True)
     receive_from = models.CharField(max_length=50)
