@@ -161,9 +161,18 @@
       }
 
 
-    
+   function getfilename() {
+    var filename = prompt("Please enter the name of the file");
+    if (filename.length >= 1) {
+      return `${filename}.pdf`;
+    }
+    else {
+      return "receipt.pdf";
+    }
+   } 
   function print(quality = 3) {
-		const filename  = 'ThisIsYourPDFFilename.pdf';
+
+		const filename  = getfilename();
 
     var divHeight = $('.panelprint').height();
     var divWidth = $('.panelprint').width();
