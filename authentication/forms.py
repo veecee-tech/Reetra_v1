@@ -26,7 +26,7 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = UserAccount
-        fields = ['username','email', 'password','password_2', 'phone']
+        fields = ['username','email', 'fullname', 'password','password_2', 'phone']
 
     def clean_email(self):
 
@@ -73,6 +73,7 @@ class RegistrationForm(forms.ModelForm):
         
         self.fields['username'].widget.attrs['placeholder'] = "Choose a Username"
         self.fields['email'].widget.attrs['placeholder'] = "Enter Your Email"
+        self.fields['fullname'].widget.attrs['placeholder'] = "Enter Your fullname"
         self.fields['phone'].widget.attrs['placeholder'] = "eg. 08143344333 or 8134223332"
 
         for field in self.fields:
@@ -98,7 +99,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = UserAccount
-        fields = ['username', 'email', 'phone', 'is_admin', 'is_staff', 'is_active']
+        fields = ['username', 'email', 'fullname', 'phone', 'is_admin', 'is_staff', 'is_active']
 
     def clean_username(self):
 
@@ -157,7 +158,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = UserAccount
-        fields = ['username','email', 'password', 'phone', 'is_admin', 'is_active', 'is_staff']
+        fields = ['username','email', 'fullname', 'password', 'phone', 'is_admin', 'is_active', 'is_staff']
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

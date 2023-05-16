@@ -8,7 +8,7 @@ from django.dispatch import receiver
 
 class UserManager(BaseUserManager):
     
-    def create_user(self,username, phone, email, password=None):
+    def create_user(self,username, phone, email, fullname, password=None):
 
         if username is None:
             raise ValueError("users Should Have an account number")
@@ -16,8 +16,11 @@ class UserManager(BaseUserManager):
         if email is None:
             raise ValueError("users Should Have an email")
         
+        if fullname is None:
+            return ValueError("please enter your full name")
         
-        user = self.model(username=username, phone=phone, email=self.normalize_email(email))
+        
+        user = self.model(username=username, phone=phone, email=self.normalize_email(email), fullname=fullname)
         user.set_password(password)
 
         user.save(using=self._db)
@@ -44,6 +47,7 @@ class UserAccount(AbstractBaseUser):
 
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=254, unique=True)
+    fullname = models.CharField(max_length=50, null=True, blank=True)
     phone = models.CharField(max_length=20)
 
     #receipt unique number
